@@ -1,0 +1,15 @@
+# Rakefile
+require './api'
+require 'rake'
+require 'sinatra/activerecord'
+require 'sinatra/activerecord/rake'
+
+# TODO: verify if needed
+#namespace :db do
+#  task :load_config do
+#    require "./api"
+#  end
+#end
+
+# TODO: rake db:create_migration NAME=create_table_name
+
