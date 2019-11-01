@@ -4,13 +4,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/synapticaly-agent.cpp 
+../src/synopticly-agent.cpp 
 
 OBJS += \
-./src/synapticaly-agent.o 
+./src/synopticly-agent.o 
 
 CPP_DEPS += \
-./src/synapticaly-agent.d 
+./src/synopticly-agent.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

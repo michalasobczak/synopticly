@@ -23,7 +23,7 @@ const char* OBN      = "OPENSHIFT_BUILD_NAMESPACE";
 const char* HEADER   = "Content-Type: application/x-www-form-urlencoded";
 std::string URL      = "http://127.0.0.1:4567";
 const char* APP_NONE = "n/a";
-const char* CONFIG   = "./synapticaly_config.json";
+const char* CONFIG   = "./synopticly_config.json";
 
 std::string read_env() {
 	if(const char* env_p = std::getenv(OBN)) {

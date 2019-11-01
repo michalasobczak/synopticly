@@ -1,0 +1,10 @@
+development:
+  adapter:  postgresql
+  encoding: utf8
+  host:     <%= ENV['DATABASE_HOST'] %> 
+  username: synopticly
+  password: <%= ENV['DATABASE_PASS'] %> 
+  database: synopticly
+  pool:     2
+
+  
