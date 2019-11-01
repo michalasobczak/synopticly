@@ -37,11 +37,15 @@ std::string read_env() {
 } // read_env
 
 void read_config_file() {
-	std::ifstream file(CONFIG);
-	json config;
-	file >> config;
-    cout << "API URL: " << config["api_url"] << std::endl;
-    URL = config["api_url"].get<std::string>();
+	try {
+		std::ifstream file(CONFIG);
+		json config;
+		file >> config;
+		cout << "API URL: " << config["api_url"] << std::endl;
+		URL = config["api_url"].get<std::string>();
+	} catch (std::exception& e) {
+		std::cerr << "read_config_file: failed, error: " << e.what() << std::endl;
+	}
 } // read_config_file
 
 void send_data_to_api(std::string app_name) {
@@ -54,7 +58,7 @@ void send_data_to_api(std::string app_name) {
         //std::cout << std::string(postResponse.body.begin(), postResponse.body.end()) << std::endl;
 	}
 	catch (const std::exception& e) {
-	    std::cerr << "Request failed, error: " << e.what() << std::endl;
+	    std::cerr << "send_data_to_api: failed, error: " << e.what() << std::endl;
 	}
 } // send_data_to_api
 
