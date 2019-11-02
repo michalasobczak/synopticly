@@ -2,7 +2,7 @@
 
 Simple service discovery software package consisting of agent, API and visualization panel.
 
-## Components
+## COMPONENTS
 
 The following components provide basic functionality of **synopticly** prototype. Once it will reach its required maturity will migrate from this software scaffold to something more appropriate in terms of applying it in enterprise environment.
 
