@@ -9,7 +9,7 @@ This component runs inside Docker container taking environment data and send it 
 - https://github.com/elnormous/HTTPRequest
 - https://github.com/nlohmann/json
 
-You can run agent like this (Dockerfile):
+You can run agent like this (`Dockerfile`):
 ```
 RUN echo "cd /opt && wget https://github.com/michalasobczak/synopticly/raw/develop/agent/Debug/synopticly-agent" >> /opt/runner.sh
 RUN echo "chmod +x /opt/synopticly-agent" >> /opt/runner.sh
