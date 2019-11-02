@@ -45,6 +45,8 @@ This component (Ruby/Rails) provides visualization user interface taking into ac
 - r4: add user authentication and authorization in visualization panel
 - r5: add data security between agent and API (nginx proxy-pass with TLS or data encryption w/o TLS)
 - r6: add application relationship management
+- r7: data rolling up, table partitioning, maintenance tasks
+- r8: visualization styling
 
 ## NOTICE
 Please bear in mind that currently this software is not production ready yet. It will be clearly mentioned here. I will provide compatible/optimized builds there on GitHub.
