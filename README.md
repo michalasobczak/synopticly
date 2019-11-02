@@ -27,7 +27,7 @@ This component (Ruby/Rack) runs as Docker container (michalasobczak/synopticly) 
 - https://github.com/janko/sinatra-activerecord
 
 ### visualization panel
-Work in progress...
+This component (Ruby/Rails) provides visualization user interface taking into account data registered from agents thru API in the `synopticly` database. Provides synoptic diagram based on `d3`, `graphlib-dot` and `dagre-d3`. 
 
 ## Further reading
 - https://hub.docker.com/r/michalasobczak/synopticly
