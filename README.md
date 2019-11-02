@@ -26,7 +26,7 @@ This component runs as Docker container (michalasobczak/synopticly) being a Sina
 - https://github.com/sinatra/sinatra
 - https://github.com/janko/sinatra-activerecord
 
-### panel
+### visualization panel
 Work in progress...
 
 ## Further reading
