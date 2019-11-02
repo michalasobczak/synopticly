@@ -4,6 +4,8 @@ Simple service discovery software package consisting of agent, API and visualiza
 
 ## Components
 
+The following components provides basic functionality of **synopticly** prototype. Once it will reach its required maturity will migrate from this software scaffold to something more appropriate in terms of applying it in enterprise environment.
+
 ### agent
 This component (c++) runs inside your Docker container taking environment data and send it to the API server.
 - https://github.com/elnormous/HTTPRequest
@@ -25,6 +27,8 @@ This component (Ruby/Rack) runs as Docker container (michalasobczak/synopticly) 
 
 - https://github.com/sinatra/sinatra
 - https://github.com/janko/sinatra-activerecord
+
+Database configuration is defined in `config/database.yml`. You can find all migrations in `db/migrate`. You need to create `synopticly` database owned by `synopticly` user. Migrations can be run via `rake db:migrate` with environment variables set.
 
 ### visualization panel
 This component (Ruby/Rails) provides visualization user interface taking into account data registered from agents thru API in the `synopticly` database. Provides synoptic diagram based on `d3`, `graphlib-dot` and `dagre-d3`. 
