@@ -5,10 +5,12 @@ Simple service discovery software package consisting of agent, API and visualiza
 ## Components
 
 ### agent
+This component runs inside Docker container taking environment data and send it to the API server.
 - https://github.com/elnormous/HTTPRequest
 - https://github.com/nlohmann/json
 
 ### API
+This component runs as Docker container (michalasobczak/synopticly) being a Sinatra server listening for incoming reports from agents all across the cluster. Requires DATABASE_HOST, DATABASE_PASS. It assumes that database name and user is set to `synopticly` for sake of simplicity.
 - https://github.com/sinatra/sinatra
 - https://github.com/janko/sinatra-activerecord
 
