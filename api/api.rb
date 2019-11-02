@@ -8,10 +8,11 @@ require './models'
 set :bind, "0.0.0.0"
 
 get '/' do
-  puts "  Params: #{params.inspect}"
+  logger.info("  Params: #{params.inspect}")
   e = Entry.new
   e.app_name = params["app_name"] rescue "n/a"
   e.save!
-  puts "  Entries.size: #{Entry.count.to_s}"
+  logger.info("  Entries.size: #{Entry.count.to_s}")
+  return "{}"
 end
 
