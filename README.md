@@ -10,13 +10,14 @@ This component runs inside Docker container taking environment data and send it 
 - https://github.com/nlohmann/json
 You can run agent like this (Dockerfile):
 ```
-RUN echo "cd /opt && wget https://github.com/michalasobczak/synopticly/raw/develop/agent/Debug/synopticly-agent && chmod +x /opt/synopticly-agent" >> /opt/runner.sh
+RUN echo "cd /opt && wget https://github.com/michalasobczak/synopticly/raw/develop/agent/Debug/synopticly-agent" >> /opt/runner.sh
+RUN echo "chmod +x /opt/synopticly-agent" >> /opt/runner.sh
 RUN echo "/opt/synopticly-agent &" >> /opt/runner.sh
 RUN cd /opt/ && echo '{"api_url": "0.0.0.0:4567"}' >> /opt/synopticly_config.json
 ...
 ENTRYPOINT /opt/runner.sh
 ```
-where `0.0.0.0` is your API server IP/host.
+where `0.0.0.0` is your API server IP/host. Configuration file name is `synopticly_config.json` and should be in the same directory as agent binary file.
 
 ### API
 This component runs as Docker container (michalasobczak/synopticly) being a Sinatra server listening for incoming reports from agents all across the cluster. Requires `DATABASE_HOST`, `DATABASE_PASS`. It assumes that database name and user is set to `synopticly` for sake of simplicity. One can run this on Portainer. Please remember to map ports appropriately as well as set restart policy to always.
