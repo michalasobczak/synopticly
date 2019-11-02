@@ -10,8 +10,13 @@ default: &default
   timeout: 5000
 
 development:
-  <<: *default
-  database: db/development.sqlite3
+  adapter:  postgresql
+  encoding: utf8
+  host:     <%= ENV['DATABASE_HOST'] %> 
+  username: synopticly
+  password: <%= ENV['DATABASE_PASS'] %> 
+  database: synopticly
+  pool:     2
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

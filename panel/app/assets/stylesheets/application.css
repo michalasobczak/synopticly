@@ -13,3 +13,25 @@
  *= require_tree .
  *= require_self
  */
+
+
+body {
+  padding: 2em;
+}
+svg {
+  overflow: hidden;
+  margin: 1em;
+}
+.node rect {
+  stroke: #333;
+  stroke-width: 2.5px;
+  fill: white;
+}
+.edgeLabel rect {
+  fill: white;
+}
+.edgePath {
+  stroke: #333;
+  stroke-width: 1.5px;
+  fill: none;
+}
