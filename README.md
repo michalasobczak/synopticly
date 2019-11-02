@@ -4,7 +4,7 @@ Simple service discovery software package consisting of agent, API and visualiza
 
 ## Components
 
-The following components provides basic functionality of **synopticly** prototype. Once it will reach its required maturity will migrate from this software scaffold to something more appropriate in terms of applying it in enterprise environment.
+The following components provide basic functionality of **synopticly** prototype. Once it will reach its required maturity will migrate from this software scaffold to something more appropriate in terms of applying it in enterprise environment.
 
 ### agent
 This component (c++) runs inside your Docker container taking environment data and send it to the API server.
