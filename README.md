@@ -6,7 +6,7 @@ Simple service discovery software package consisting of agent, API and visualiza
 
 The following components provide basic functionality of **synopticly** prototype. Once it will reach its required maturity will migrate from this software scaffold to something more appropriate in terms of applying it in enterprise environment.
 
-### agent
+### (a) agent
 This component (c++) runs inside your Docker container taking environment data and send it to the API server.
 - https://github.com/elnormous/HTTPRequest
 - https://github.com/nlohmann/json
@@ -22,7 +22,7 @@ ENTRYPOINT /opt/runner.sh
 ```
 where `0.0.0.0` is your API server IP/host. Configuration file name is `synopticly_config.json` and should be in the same directory as agent binary file. Agent takes `OPENSHIFT_BUILD_NAMESPACE` as application name that will be reported to the API server. 
 
-### API
+### (b) API
 This component (Ruby/Rack) runs as Docker container (michalasobczak/synopticly) being a Sinatra server listening for incoming reports from agents all across the cluster. Requires `DATABASE_HOST`, `DATABASE_PASS`. It assumes that database name and user is set to `synopticly` for sake of simplicity. One can run this on Portainer. Please remember to map ports appropriately as well as set restart policy to always.
 
 - https://github.com/sinatra/sinatra
@@ -30,10 +30,10 @@ This component (Ruby/Rack) runs as Docker container (michalasobczak/synopticly) 
 
 Database configuration is defined in `config/database.yml`. You can find all migrations in `db/migrate`. You need to create `synopticly` database owned by `synopticly` user. Migrations can be run via `rake db:migrate` with environment variables set.
 
-### visualization panel
+### (c) visualization panel
 This component (Ruby/Rails) provides visualization user interface taking into account data registered from agents thru API in the `synopticly` database. Provides synoptic diagram based on `d3`, `graphlib-dot` and `dagre-d3`. 
 
-## Further reading
+## FURTHER READING
 - https://hub.docker.com/r/michalasobczak/synopticly
 
 ## ROADMAP
