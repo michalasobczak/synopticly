@@ -13,5 +13,6 @@ get '/' do
   e.app_name = params["app_name"] rescue "n/a"
   e.save!
   puts "  Entries.size: #{Entry.count.to_s}"
+  return "{}"
 end
 
