@@ -34,7 +34,7 @@ This component (Ruby/Rack) runs as Docker container (michalasobczak/synopticly) 
 Database configuration is defined in `config/database.yml`. You can find all migrations in `db/migrate`. You need to create `synopticly` database owned by `synopticly` user. Migrations can be run via `rake db:migrate` with environment variables set.
 
 ### (c) visualization panel
-This component (Ruby/Rails) provides visualization user interface taking into account data registered from agents thru API in the `synopticly` database. Provides synoptic diagram based on `d3`, `graphlib-dot` and `dagre-d3`. 
+This component (Ruby/Rails) provides visualization user interface taking into account data registered from agents thru API in the `synopticly` database. Provides synoptic diagram based on `d3`, `graphlib-dot` and `dagre-d3`. Runs as Docker container (michalasobczak/synopticly-visualization-panel).
 
 ## FURTHER READING
 - https://hub.docker.com/r/michalasobczak/synopticly
