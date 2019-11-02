@@ -28,10 +28,12 @@ using namespace std;
 int main() {
 	print_init_msg();
 	read_config_file();
-	std::string app_name = read_env();
-	while(1) {
+	std::string app_name     = read_app_name();
+	std::string hostname     = read_hostname();
+	std::string ruby_version = read_ruby_version();
+	while (true) {
 		if (!app_name.empty()) {
-			send_data_to_api(app_name);
+			send_data_to_api(app_name, hostname, ruby_version);
 		}
 		sleep_for(1000);
 	}
