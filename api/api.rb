@@ -11,6 +11,8 @@ get '/' do
   logger.info("  Params: #{params.inspect}")
   e = Entry.new
   e.app_name = params["app_name"] rescue "n/a"
+  e.hostname = params["h"] rescue "n/a"
+  e.ruby_version = params["rv"] rescue "n/a";
   app = Application.where("app_name = ?", e.app_name).first
   if app.blank? then
     app = Application.new
