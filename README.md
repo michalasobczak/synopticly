@@ -2,6 +2,9 @@
 
 Simple service discovery software package consisting of agent, API and visualization panel.
 
+## PROJECT GOALS
+Looking for software-based synoptic panel for application cluster monitoring (e.g. OpenShift/OKD with Docker cointainers). Thinking of employing Elasticsearch + Kibana (canvas, visualizations), Grafana or even built monitoring into recent OKD versions. Found it too complicated to fit into our timeframe for this task. Here you have much simpler aproach, which does exactly what it should from our perspective.
+
 ## COMPONENTS
 
 The following components provide basic functionality of **synopticly** prototype. Once it will reach its required maturity will migrate from this software scaffold to something more appropriate in terms of applying it in enterprise environment.
@@ -35,6 +38,8 @@ This component (Ruby/Rails) provides visualization user interface taking into ac
 
 ## FURTHER READING
 - https://hub.docker.com/r/michalasobczak/synopticly
+- https://github.com/dagrejs/graphlib-dot/wiki
+- https://graphviz.gitlab.io/_pages/doc/info/lang.html
 
 ## ROADMAP
 
