@@ -10,7 +10,7 @@ Looking for software-based synoptic panel for application cluster monitoring (e.
 The following components provide basic functionality of **synopticly** prototype. Once it will reach its required maturity will migrate from this software scaffold to something more appropriate in terms of applying it in enterprise environment.
 
 ### (a) agent
-This component (c++) runs inside your Docker container taking environment data and send it to the API server.
+This component (c++, 64-bit Linux only, static linking) runs inside your Docker container taking environment data and send it to the API server.
 - https://github.com/elnormous/HTTPRequest
 - https://github.com/nlohmann/json
 
