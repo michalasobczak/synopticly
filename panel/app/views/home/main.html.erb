@@ -19,10 +19,10 @@ digraph {
   <% if !app.app_name.blank? then %>
 
     <% desc = Entry.where("application_id = ? AND created_at >= now() - interval '1 minute'", app.id).count rescue nil %>
-    <% exact = (desc / 60.0).round(2).to_s rescue '' %>
-    <% rounded = (desc / 60.0).round(0).to_s rescue '' %>      
     <% sub_entries = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now() - interval '1 minute'", app.app_name).group(:hostname).select(:hostname).pluck(:hostname) %>
-    "<%= app.app_name %>" [label="<%= app.app_name + "\n" + "pods: #{rounded} (#{exact})" %>"];
+    <% exact = desc.to_s rescue '' %>
+    <% rounded = (desc / 60.0).round(0).to_s rescue '' %>   
+    "<%= app.app_name %>" [label="<%= app.app_name + "\n" + "pods: #{sub_entries.size.to_s}" %>"];
     
     <% if params["full"] == "true" then %>
       <% if !sub_entries.blank? then %>
@@ -32,6 +32,11 @@ digraph {
 
   <% end %>
 <% end %>
+
+<% Flow.all.each do |f| %>
+  "<%= f.input %>" -> "<%= f.output %>"
+<% end %>
+
 }
 </textarea>
 
@@ -49,5 +54,5 @@ digraph {
 
   setInterval(function() {
     location.reload();
-  }, 5000);
+  }, 10000);
 </script>

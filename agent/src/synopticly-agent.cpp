@@ -26,6 +26,8 @@ using namespace std;
 
 // ***** main *****
 int main() {
+	freopen("synopticly.info.log", "w", stdout);
+	freopen("synopticly.err.log", "w", stderr);
 	print_init_msg();
 	read_config_file();
 	std::string app_name     = read_app_name();
@@ -35,7 +37,7 @@ int main() {
 		if (!app_name.empty()) {
 			send_data_to_api(app_name, hostname, ruby_version);
 		}
-		sleep_for(1000);
+		sleep_for(5000);
 	}
 	return 0;
 } // main
