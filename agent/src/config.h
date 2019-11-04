@@ -22,6 +22,7 @@
 	const char* RUBY_VER = "n/a"; // RUV
 	//
 	const char* HEADER   = "Content-Type: application/x-www-form-urlencoded";
-	std::string URL      = "http://127.0.0.1:4567";
+	std::string URL      = "http://127.0.0.1:9292";
+	int         PORT     = 9292;
 	const char* CONFIG   = "./synopticly_config.json";
 #endif /* SRC_CONFIG_H_ */

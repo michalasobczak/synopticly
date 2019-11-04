@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 // ***** 3rd party libraries *****
+#include <boost/algorithm/string.hpp>
 #include "json.hpp"
 // ***** other *****
 #include "config.h"
@@ -36,8 +37,13 @@
 			std::ifstream file(CONFIG);
 			nlohmann::json config;
 			file >> config;
-			std::cout << "API URL: " << config["api_url"] << std::endl << std::endl;
-			URL = config["api_url"].get<std::string>();
+			std::cout << "API URL: " << config["api_url"] << std::endl;
+			std::string full_url = config["api_url"].get<std::string>();
+			std::vector<std::string> strs;
+			boost::split(strs, full_url, boost::is_any_of(":"));
+			URL  = strs[0];
+			PORT = std::stoi(strs[1]);
+			std::cout << "HOST: " << URL << ", PORT:" << PORT << std::endl << std::endl;
 		} catch (std::exception& e) {
 			std::cerr << "read_config_file: failed, error: " << e.what() << std::endl;
 		}
