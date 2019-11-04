@@ -35,3 +35,6 @@ svg {
   stroke-width: 1.5px;
   fill: none;
 }
+.error {
+  fill:rgb(0,0,255);stroke-width:1;stroke:rgb(0,0,0);
+}
