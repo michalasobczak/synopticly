@@ -43,15 +43,22 @@ This component (Ruby/Rails) provides visualization user interface taking into ac
 
 ## ROADMAP
 
-- (alpha, r0) first working prototype: agent takes container data and sends it to API server which saves it in the storage (e.g. database), user can have an outlook of applications running in the cluster, aim for 50 applications running at a time sending data every second
-- r1: agent reads more data
-- r2: agent read application metrics (from file, pipe, database, memory etc.)
-- r3: enriching diagram with more data and additional metrics
-- r4: add user authentication and authorization in visualization panel
-- r5: add data security between agent and API (nginx proxy-pass with TLS or data encryption w/o TLS)
-- r6: add application relationship management
-- r7: data rolling up, table partitioning, maintenance tasks
-- r8: visualization styling
+- r0/alpha: (first working prototype): 
+  - agent takes container data and sends it to API server which saves it in the storage (e.g. database), 
+  - user can have an outlook of applications running in the cluster, 
+  - aim for 50 applications running at a time sending data every second
+- r1:
+  - agent reads more data
+  - agent read application metrics (from file, pipe, database, memory etc.)
+  - enriching diagram with more data and additional metrics
+  - add application relationship management
+- r2: 
+  - add user authentication and authorization in visualization panel
+  - add data security between agent and API (nginx proxy-pass with TLS or data encryption w/o TLS)
+  - data rolling up, table partitioning, maintenance tasks
+- r3: 
+  - server monitoring including linking apps to VMs
+  - visualization styling
 
 ## NOTICE
 Please bear in mind that currently this software is not production ready yet. It will be clearly mentioned here. I will provide compatible/optimized builds there on GitHub.
