@@ -13,6 +13,8 @@ The following components provide basic functionality of **synopticly** prototype
 This component (c++, 64-bit Linux only, static linking) runs inside your *Docker* container taking environment data and send it to the API server.
 - https://github.com/elnormous/HTTPRequest
 - https://github.com/nlohmann/json
+- https://www.boost.org/doc/libs/1_57_0/doc/html/string_algo/usage.html
+- https://github.com/yhirose/cpp-httplib
 
 You can run agent like this (`Dockerfile`):
 ```
