@@ -3,14 +3,14 @@
 Simple service discovery software package consisting of agent, API and visualization panel. Targeting microservices monitoring as well as its data flows betweem particular environment components.
 
 ## PROJECT GOALS
-Looking for software-based synoptic panel for application cluster monitoring (e.g. OpenShift/OKD with Docker cointainers). Thinking of employing Elasticsearch + Kibana (canvas, visualizations), Grafana or even built monitoring into recent OKD versions. Found it too complicated to fit into our timeframe for this task. Here you have much simpler aproach, which does exactly what it should from our perspective.
+Looking for software-based synoptic panel for application cluster monitoring (e.g. *OpenShift*/*OKD* with *Docker* cointainers). Thinking of employing *Elasticsearch* + *Kibana* (canvas, visualizations), Grafana or even built monitoring into recent OKD versions. Found it too complicated to fit into our timeframe for this task. Here you have much simpler aproach, which does exactly what it should from our perspective.
 
 ## COMPONENTS
 
 The following components provide basic functionality of **synopticly** prototype. Once it will reach its required maturity will migrate from this software scaffold to something more appropriate in terms of applying it in enterprise environment.
 
 ### (a) agent
-This component (c++, 64-bit Linux only, static linking) runs inside your Docker container taking environment data and send it to the API server.
+This component (c++, 64-bit Linux only, static linking) runs inside your *Docker* container taking environment data and send it to the API server.
 - https://github.com/elnormous/HTTPRequest
 - https://github.com/nlohmann/json
 
@@ -26,7 +26,7 @@ ENTRYPOINT /opt/runner.sh
 where `0.0.0.0` is your API server IP/host. Configuration file name is `synopticly_config.json` and should be in the same directory as agent binary file. Agent takes `OPENSHIFT_BUILD_NAMESPACE` as application name that will be reported to the API server. 
 
 ### (b) API
-This component (Ruby/Rack) runs as Docker container (michalasobczak/synopticly) being a Sinatra server listening for incoming reports from agents all across the cluster. Requires `DATABASE_HOST`, `DATABASE_PASS`. It assumes that database name and user is set to `synopticly` for sake of simplicity. One can run this on Portainer. Please remember to map ports appropriately as well as set restart policy to always.
+This component (*Ruby*/*Rack*) runs as *Docker* container (`michalasobczak/synopticly`) being a *Sinatra* server listening for incoming reports from agents all across the cluster. Requires `DATABASE_HOST`, `DATABASE_PASS`. It assumes that database name and user is set to `synopticly` for sake of simplicity. One can run this on *Portainer*. Please remember to map ports appropriately as well as set restart policy to always.
 
 - https://github.com/sinatra/sinatra
 - https://github.com/janko/sinatra-activerecord
@@ -34,7 +34,7 @@ This component (Ruby/Rack) runs as Docker container (michalasobczak/synopticly) 
 Database configuration is defined in `config/database.yml`. You can find all migrations in `db/migrate`. You need to create `synopticly` database owned by `synopticly` user. Migrations can be run via `rake db:migrate` with environment variables set.
 
 ### (c) visualization panel
-This component (Ruby/Rails) provides visualization user interface taking into account data registered from agents thru API in the `synopticly` database. Provides synoptic diagram based on `d3`, `graphlib-dot` and `dagre-d3`. Runs as Docker container (michalasobczak/synopticly-visualization-panel).
+This component (*Rub*y/*Rails*) provides visualization user interface taking into account data registered from agents thru API in the `synopticly` database. Provides synoptic diagram based on `d3`, `graphlib-dot` and `dagre-d3`. Runs as *Docker* container (`michalasobczak/synopticly-visualization-panel`).
 
 ## FURTHER READING
 - https://hub.docker.com/r/michalasobczak/synopticly
@@ -54,7 +54,7 @@ This component (Ruby/Rails) provides visualization user interface taking into ac
   - add application relationship management
 - r2: 
   - add user authentication and authorization in visualization panel
-  - add data security between agent and API (nginx proxy-pass with TLS or data encryption w/o TLS)
+  - add data security between agent and API (*Nginx* proxy-pass with TLS or data encryption w/o TLS)
   - data rolling up, table partitioning, maintenance tasks
 - r3: 
   - server monitoring including linking apps to VMs
