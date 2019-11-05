@@ -15,6 +15,7 @@ This component (c++, 64-bit Linux only, static linking) runs inside your *Docker
 - https://github.com/nlohmann/json
 - https://www.boost.org/doc/libs/1_57_0/doc/html/string_algo/usage.html
 - https://github.com/yhirose/cpp-httplib
+- https://csl.name/post/lua-and-cpp/
 
 You can run agent like this (`Dockerfile`):
 ```
