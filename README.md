@@ -16,6 +16,8 @@ This component (c++, 64-bit Linux only, static linking) runs inside your *Docker
 - https://www.boost.org/doc/libs/1_57_0/doc/html/string_algo/usage.html
 - https://github.com/yhirose/cpp-httplib
 - https://csl.name/post/lua-and-cpp/
+- https://community.vcvrack.com/t/glibcxx-version-in-rhel7/3828/2
+- https://forums.fedoraforum.org/showthread.php?271288-liblua5-1-so-0
 
 You can run agent like this (`Dockerfile`):
 ```
