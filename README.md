@@ -18,6 +18,7 @@ This component (c++, 64-bit Linux only, static linking) runs inside your *Docker
 - https://csl.name/post/lua-and-cpp/
 - https://community.vcvrack.com/t/glibcxx-version-in-rhel7/3828/2
 - https://forums.fedoraforum.org/showthread.php?271288-liblua5-1-so-0
+- https://centos.pkgs.org/7/epel-x86_64/lua-socket-3.0-0.17.rc1.el7.x86_64.rpm.html
 
 You can run agent like this (`Dockerfile`):
 ```
