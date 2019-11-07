@@ -13,7 +13,7 @@ RUN cd /opt && rpm -ivh lua-socket-3.0-0.17.rc1.el7.x86_64.rpm
 RUN ln -s /usr/lib64/liblua-5.1.so /usr/lib64/liblua5.1.so.0
 RUN echo "cd /opt && wget https://github.com/michalasobczak/synopticly/raw/develop/agent/Debug/synopticly-agent && chmod +x /opt/synopticly-agent" >> /opt/runner.sh
 RUN cd /opt/ && echo '{"api_url": "synopticly.mplatform.local:4567"}' >> /opt/synopticly_config.json
-RUN echo "/opt/synopticly-agent && tail -f -n 100 /opt/synopticly.*" >> /opt/runner.sh
+RUN echo "/opt/synopticly-agent &" >> /opt/runner.sh
 
 RUN chmod a+x /opt/runner.sh
 ENTRYPOINT bash -l -c "/opt/runner.sh" 
