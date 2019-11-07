@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 // ***** 3rd party libraries *****
+#include <boost/algorithm/string.hpp>
 #include "json.hpp"
 // ***** other *****
 #include "config.h"
@@ -19,23 +20,30 @@
 	void print_init_msg() {
 		std::cout << "*** " << INIT_MSG << REV << " ***" << std::endl;
 	}
-	std::string read_env() {
-		if(const char* env_p = std::getenv(OBN)) {
-		  std::cout << OBN << " is: " << env_p << std::endl;
-		  return env_p;
-		}
-		else {
-		  std::cout << "There is no " << OBN << std::endl;
-		  return APP_NONE;
-		}
-	} // read_env
+	std::string read_app_name() {
+		if(const char* env_p = std::getenv(OBN)) { return env_p; }
+		else { return APP_NONE; }
+	} // read_app_name
+	std::string read_hostname() {
+		if(const char* tmp = std::getenv(HSN)) { return tmp; }
+		else { return APP_NONE; }
+	} // read_hostname
+	std::string read_ruby_version() {
+		if(const char* tmp = std::getenv(RUV)) { return tmp; }
+		else { return APP_NONE; }
+	} // read_ruby_version
 	void read_config_file() {
 		try {
 			std::ifstream file(CONFIG);
 			nlohmann::json config;
 			file >> config;
 			std::cout << "API URL: " << config["api_url"] << std::endl;
-			URL = config["api_url"].get<std::string>();
+			std::string full_url = config["api_url"].get<std::string>();
+			std::vector<std::string> strs;
+			boost::split(strs, full_url, boost::is_any_of(":"));
+			URL  = strs[0];
+			PORT = std::stoi(strs[1]);
+			std::cout << "HOST: " << URL << ", PORT:" << PORT << std::endl << std::endl;
 		} catch (std::exception& e) {
 			std::cerr << "read_config_file: failed, error: " << e.what() << std::endl;
 		}

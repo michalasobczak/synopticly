@@ -1,0 +1,27 @@
+FROM ruby:2.5.5
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+RUN apt-get update
+RUN apt-get install ruby curl wget net-tools mc procps sudo gcc build-essential ruby-dev less wkhtmltopdf cron -y
+RUN apt-get install libxext-dev libxrender-dev fontconfig libfontconfig1 fonts-texgyre -y
+RUN apt-get install --no-install-recommends -y -q curl apt-transport-https wget build-essential nodejs postgresql-client
+RUN apt-get install ruby curl wget net-tools mc procps sudo gcc build-essential ruby-dev less -y
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && apt-get install -y nodejs
+RUN ln -sf /usr/share/zoneinfo/Poland /etc/localtime
+
+# synopticly
+RUN apt-get install lua5.1 lua5.1-dev liblua5.1 lua-socket -y
+RUN echo "cd /opt && wget https://github.com/michalasobczak/synopticly/raw/develop/agent/Debug/synopticly-agent && chmod +x /opt/synopticly-agent" >> /opt/runner.sh
+RUN echo "/opt/synopticly-agent &" >> /opt/runner.sh
+RUN cd /opt/ && echo '{"api_url": "synopticly.mplatform.local:4567"}' >> /opt/synopticly_config.json
+
+COPY Gemfile /usr/src/app/
+COPY Gemfile.lock /usr/src/app/
+RUN bundle config --global frozen 1
+RUN bundle install
+COPY . /usr/src/app
+
+RUN chmod a+x /opt/runner.sh
+ENTRYPOINT /opt/runner.sh
+
