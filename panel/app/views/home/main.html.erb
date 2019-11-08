@@ -44,8 +44,9 @@ digraph {
   $(document).ready(function() {
     setInterval(function() {
       $('tspan').each(function() { 
-        r = /pods: 0 /gi; 
-        if (this.textContent.toString().match(r)) { 
+        r = /pods: 0/gi; 
+        if (this.textContent.toString().match(r)) {
+          console.log("ALERT: 0 pods!"); 
           $($($(this).parent().parent().parent()).children()[0]).attr("style", "fill:rgb(0,0,255)")
         } 
       });
