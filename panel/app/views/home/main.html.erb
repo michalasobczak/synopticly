@@ -20,9 +20,10 @@ digraph {
 
     <% desc = Entry.where("application_id = ? AND created_at >= now() - interval '1 minute'", app.id).count rescue nil %>
     <% sub_entries = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now() - interval '1 minute'", app.app_name).group(:hostname).select(:hostname).pluck(:hostname) %>
+    <% ruby_version = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now() - interval '1 minute'", app.app_name).first %>
     <% exact = desc.to_s rescue '' %>
     <% rounded = (desc / 60.0).round(0).to_s rescue '' %>   
-    "<%= app.app_name %>" [label="<%= app.app_name + "\n" + "pods: #{sub_entries.size.to_s}" %>"];
+    "<%= app.app_name %>" [label="<%= app.app_name + "\n" + "pods: #{sub_entries.size.to_s} \n Ruby: #{ruby_version.ruby_version}" %>"];
     
     <% if params["full"] == "true" then %>
       <% if !sub_entries.blank? then %>
