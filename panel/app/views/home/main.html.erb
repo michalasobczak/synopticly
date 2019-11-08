@@ -47,7 +47,7 @@ digraph {
         r = /pods: 0/gi; 
         if (this.textContent.toString().match(r)) {
           console.log("ALERT: 0 pods!"); 
-          $($($(this).parent().parent().parent()).children()[0]).attr("style", "fill:rgb(0,0,255)")
+          $($($(this).parent().parent().parent()).children()[0]).attr("style", "fill:rgb(255,0,0)")
         } 
       });
     },1000);
