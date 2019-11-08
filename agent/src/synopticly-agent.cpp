@@ -30,12 +30,13 @@ int main() {
 	//freopen("synopticly.err.log", "w", stderr);
 	print_init_msg();
 	read_config_file();
-	std::string app_name     = read_app_name();
-	std::string hostname     = read_hostname();
-	std::string ruby_version = read_ruby_version();
+	std::string app_name        = read_app_name();
+	std::string hostname        = read_hostname();
+	std::string ruby_version    = read_ruby_version();
+	std::string wildfly_version = read_wildfly_version();
 	while (true) {
 		if (!app_name.empty()) {
-			send_data_to_api(app_name, hostname, ruby_version);
+			send_data_to_api(app_name, hostname, ruby_version, wildfly_version);
 		}
 		sleep_for(5000);
 	}

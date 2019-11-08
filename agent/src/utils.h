@@ -32,6 +32,10 @@
 		if(const char* tmp = std::getenv(RUV)) { return tmp; }
 		else { return APP_NONE; }
 	} // read_ruby_version
+	std::string read_wildfly_version() {
+		if(const char* tmp = std::getenv(WFV)) { return tmp; }
+		else { return APP_NONE; }
+	} // read_wildfly_version
 	void read_config_file() {
 		try {
 			std::ifstream file(CONFIG);
