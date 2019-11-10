@@ -26,8 +26,8 @@ using namespace std;
 
 // ***** main *****
 int main() {
-	//freopen("synopticly.info.log", "w", stdout);
-	//freopen("synopticly.err.log", "w", stderr);
+	freopen("synopticly.info.log", "w", stdout);
+	freopen("synopticly.err.log", "w", stderr);
 	print_init_msg();
 	read_config_file();
 	std::string app_name        = read_app_name();

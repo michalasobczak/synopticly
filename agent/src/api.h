@@ -45,6 +45,9 @@ using json = nlohmann::json;
 			//std::cout << std::asctime(std::localtime(&result));
 			std::string host(URL);
 			std::string port = std::to_string(PORT);
+			if (app_name == APP_NONE) {
+				app_name = hostname;
+			}
 			std::string parameters = "http://"+host+":"+port+"/?app_name="+app_name+"&h="+hostname+"&rv="+ruby_version+"&wv="+wildfly_version;
 			std::string tmp = std::string("local http=require('socket.http');local body,code,headers,status=http.request('")+parameters+std::string("');print(code,status,#body);");
 			std::cout << tmp << std::endl;

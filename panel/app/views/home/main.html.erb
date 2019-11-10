@@ -21,9 +21,20 @@ digraph {
     <% desc = Entry.where("application_id = ? AND created_at >= now() - interval '1 minute'", app.id).count rescue nil %>
     <% sub_entries = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now() - interval '1 minute'", app.app_name).group(:hostname).select(:hostname).pluck(:hostname) %>
     <% version = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now() - interval '1 minute'", app.app_name).first %>
-    <% exact = desc.to_s rescue '' %>
-    <% rounded = (desc / 60.0).round(0).to_s rescue '' %>   
-    "<%= app.app_name %>" [label="<%= app.app_name + "\n" + "pods: #{sub_entries.size.to_s} \n Ruby: #{version.ruby_version} \n Wildfly: #{version.wildfly_version}" %>"];
+    <% 
+      platforms = ""
+      begin
+        platforms = "# #{sub_entries.size} \n "
+        if !version.ruby_version.blank? && version.ruby_version != 'n/a' then
+          platforms = platforms + "r: #{version.ruby_version rescue '?'}"
+        end
+        if !version.wildfly_version.blank? && version.wildfly_version != 'n/a' then
+          platforms = platforms + "\n w: #{version.wildfly_version rescue '?'}" 
+        end
+      rescue 
+      end
+    %>
+    "<%= app.app_name %>" [label="<%= app.app_name + "\n" + platforms %>"];
     
     <% if params["full"] == "true" then %>
       <% if !sub_entries.blank? then %>
@@ -45,7 +56,7 @@ digraph {
   $(document).ready(function() {
     setInterval(function() {
       $('tspan').each(function() { 
-        r = /pods: 0/gi; 
+        r = /# 0/gi; 
         if (this.textContent.toString().match(r)) {
           console.log("ALERT: 0 pods!"); 
           $($($(this).parent().parent().parent()).children()[0]).attr("style", "fill:rgb(255,0,0)")
