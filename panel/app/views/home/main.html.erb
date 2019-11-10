@@ -1,10 +1,17 @@
-Welcome, to the <strong>synopticly</strong>!
+<span style="font-size:70px;">Welcome, to the <strong>synopticly</strong>!</span>
 
+<!--
 <% if params["full"] == "true" then %>
   <a href="?full=false">Switch to basic</a>
 <% else %>
   <a href="?full=true">Switch to full</a>
 <% end %>
+-->
+
+<br /><br />
+
+<span style="font-size:70px;">Current time: <%= Time.now.to_s %></span><br />
+<span style="font-size:50px;">Objects: <%= Application.distinct.select(:app_name).size.to_s %></span>
 
 <br /><br />
 
@@ -19,7 +26,7 @@ digraph {
   <% if !app.app_name.blank? then %>
 
     <% desc = Entry.where("application_id = ? AND created_at >= now() - interval '1 minute'", app.id).count rescue nil %>
-    <% sub_entries = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now() - interval '1 minute'", app.app_name).group(:hostname).select(:hostname).pluck(:hostname) %>
+    <% sub_entries = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now() - interval '10 seconds'", app.app_name).group(:hostname).select(:hostname).pluck(:hostname) %>
     <% version = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now() - interval '1 minute'", app.app_name).first %>
     <% 
       platforms = ""
@@ -52,6 +59,8 @@ digraph {
 }
 </textarea>
 
+<a href="https://github.com/michalasobczak/synopticly">GitHub</a>
+
 <script>
   $(document).ready(function() {
     setInterval(function() {
@@ -73,5 +82,5 @@ digraph {
 
   setInterval(function() {
     location.reload();
-  }, 60000);
+  }, 15000);
 </script>

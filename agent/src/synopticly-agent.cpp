@@ -26,17 +26,20 @@ using namespace std;
 
 // ***** main *****
 int main() {
-	freopen("synopticly.info.log", "w", stdout);
-	freopen("synopticly.err.log", "w", stderr);
+	//freopen("synopticly.info.log", "w", stdout);
+	//freopen("synopticly.err.log", "w", stderr);
 	print_init_msg();
+	read_os_version();
 	read_config_file();
-	std::string app_name        = read_app_name();
-	std::string hostname        = read_hostname();
-	std::string ruby_version    = read_ruby_version();
-	std::string wildfly_version = read_wildfly_version();
+	APP_NAME        = read_app_name();
+	HOSTNAME        = url_encode(read_hostname());
+	RUBY_VERSION    = url_encode(read_ruby_version());
+	WILDFLY_VERSION = url_encode(read_wildfly_version());
+	OS_VERSION      = url_encode(NE_OS_VERSION);
+	OS_RELEASE      = url_encode(NE_OS_RELEASE);
 	while (true) {
-		if (!app_name.empty()) {
-			send_data_to_api(app_name, hostname, ruby_version, wildfly_version);
+		if (!APP_NAME.empty()) {
+			send_data_to_api();
 		}
 		sleep_for(5000);
 	}
