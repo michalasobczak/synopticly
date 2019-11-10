@@ -1,0 +1,16 @@
+# install
+yum install lua lua-devel lua-static wget -y
+cd /opt && wget http://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/l/lua-socket-3.0-0.17.rc1.el7.x86_64.rpm
+cd /opt && rpm -ivh lua-socket-3.0-0.17.rc1.el7.x86_64.rpm
+ln -s /usr/lib64/liblua-5.1.so /usr/lib64/liblua5.1.so.0
+cd /opt/ && echo '{"api_url": "synopticly.mplatform.local:4567"}' >> /opt/synopticly_config.json
+
+# /opt/runner.sh
+cd /opt && rm -f synopticly-agent
+sleep 10
+cd /opt && wget https://github.com/michalasobczak/synopticly/raw/develop/agent/Debug/synopticly-agent -O /opt/synopticly-agent 
+cd /opt && chmod +x /opt/synopticly-agent
+cd /opt && /opt/synopticly-agent &
+
+# crontab
+@reboot bash -l -c "/opt/runner.sh"
