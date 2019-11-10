@@ -2,7 +2,7 @@ FROM jboss/wildfly:11.0.0.Final
 # packages
 USER root
 RUN yum update -y
-RUN yum install curl wget net-tools mc procps sudo gcc build-essential less -y
+RUN yum install curl net-tools mc procps sudo gcc build-essential less -y
 RUN yum groupinstall "Development tools" -y
 RUN yum install git-core zlib zlib-devel gcc-c++ patch readline readline-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison curl sqlite-devel -y
 
