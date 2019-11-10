@@ -20,9 +20,21 @@ digraph {
 
     <% desc = Entry.where("application_id = ? AND created_at >= now() - interval '1 minute'", app.id).count rescue nil %>
     <% sub_entries = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now() - interval '1 minute'", app.app_name).group(:hostname).select(:hostname).pluck(:hostname) %>
-    <% exact = desc.to_s rescue '' %>
-    <% rounded = (desc / 60.0).round(0).to_s rescue '' %>   
-    "<%= app.app_name %>" [label="<%= app.app_name + "\n" + "pods: #{sub_entries.size.to_s}" %>"];
+    <% version = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now() - interval '1 minute'", app.app_name).first %>
+    <% 
+      platforms = ""
+      begin
+        platforms = "# #{sub_entries.size} \n "
+        if !version.ruby_version.blank? && version.ruby_version != 'n/a' then
+          platforms = platforms + "r: #{version.ruby_version rescue '?'}"
+        end
+        if !version.wildfly_version.blank? && version.wildfly_version != 'n/a' then
+          platforms = platforms + "\n w: #{version.wildfly_version rescue '?'}" 
+        end
+      rescue 
+      end
+    %>
+    "<%= app.app_name %>" [label="<%= app.app_name + "\n" + platforms + "\n____________________" %>"];
     
     <% if params["full"] == "true" then %>
       <% if !sub_entries.blank? then %>
@@ -44,9 +56,16 @@ digraph {
   $(document).ready(function() {
     setInterval(function() {
       $('tspan').each(function() { 
-        r = /pods: 0 /gi; 
-        if (this.textContent.toString().match(r)) { 
-          $($($(this).parent().parent().parent()).children()[0]).attr("style", "fill:rgb(0,0,255)")
+        r = /# 0/gi; 
+        if (this.textContent.toString().match(r)) {
+          console.log("ALERT: 0 pods!"); 
+          fill = $($($(this).parent().parent().parent()).children()[0]).attr("style");
+          if (fill == "fill:rgb(255,0,0)") {
+            $($($(this).parent().parent().parent()).children()[0]).attr("style", "fill:rgb(255,255,255)");
+          }
+          else {
+           $($($(this).parent().parent().parent()).children()[0]).attr("style", "fill:rgb(255,0,0)");
+          }
         } 
       });
     },1000);

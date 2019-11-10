@@ -11,15 +11,17 @@
 #ifndef SRC_CONFIG_H_
 #define SRC_CONFIG_H_
 	const char* INIT_MSG = "synopticly-agent, rev: ";
-	const char* REV      = "20191102_01";
+	const char* REV      = "20191108";
 	// k8s/okd docker pod data
 	const char* OBN      = "OPENSHIFT_BUILD_NAMESPACE";
 	const char* HSN      = "HOSTNAME";
 	const char* RUV      = "RUBY_VERSION";
+	const char* WFV      = "WILDFLY_VERSION";
 	// pod data mapping for API server
 	const char* APP_NONE = "n/a"; // OBN
 	const char* HOSTNAME = "n/a"; // HSN
 	const char* RUBY_VER = "n/a"; // RUV
+	const char* WILD_VER = "n/a"; // WFV
 	//
 	const char* HEADER   = "Content-Type: application/x-www-form-urlencoded";
 	std::string URL      = "http://127.0.0.1:9292";

@@ -38,15 +38,18 @@ using json = nlohmann::json;
       lua_pcall(state, 0, LUA_MULTRET, 0);
       lua_close(state);
 	}
-	void send_data_to_api(std::string app_name, std::string hostname, std::string ruby_version) {
+	void send_data_to_api(std::string app_name, std::string hostname, std::string ruby_version, std::string wildfly_version) {
 		try {
 			std::cout << "send_data_to_api" << std::endl;
 			//std::time_t result = std::time(nullptr);
 			//std::cout << std::asctime(std::localtime(&result));
 			std::string host(URL);
 			std::string port = std::to_string(PORT);
-			std::string parameters = "http://" + host + ":" + port + "/?app_name="+app_name+"&h="+hostname+"&rv="+ruby_version;
-			std::string tmp = std::string("local http=require('socket.http');local body,code,headers,status=http.request('") + parameters + std::string("');print(code,status,#body);");
+			if (app_name == APP_NONE) {
+				app_name = hostname;
+			}
+			std::string parameters = "http://"+host+":"+port+"/?app_name="+app_name+"&h="+hostname+"&rv="+ruby_version+"&wv="+wildfly_version;
+			std::string tmp = std::string("local http=require('socket.http');local body,code,headers,status=http.request('")+parameters+std::string("');print(code,status,#body);");
 			std::cout << tmp << std::endl;
 			execute(tmp);
 		}

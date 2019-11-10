@@ -10,9 +10,11 @@ set :bind, "0.0.0.0"
 get '/' do
   logger.info("  Params: #{params.inspect}")
   e = Entry.new
-  e.app_name = params["app_name"] rescue "n/a"
-  e.hostname = params["h"] rescue "n/a"
-  e.ruby_version = params["rv"] rescue "n/a";
+  e.app_name        = params["app_name"] rescue "n/a"
+  e.hostname        = params["h"]        rescue "n/a"
+  e.ruby_version    = params["rv"]       rescue "n/a"
+  e.wildfly_version = params["wv"]       rescue "n/a"
+  e.java_version    = params["jv"]       rescue "n/a"
   app = Application.where("app_name = ?", e.app_name).first
   if app.blank? then
     app = Application.new
@@ -22,7 +24,10 @@ get '/' do
   end
   e.application_id = app.id
   e.save! 
-  #logger.info("  Entries.size: #{Entry.count.to_s}")
-  return "{}"
+  if app.body.blank?
+    return "{}"
+  else
+    return app.body
+  end
 end
 
