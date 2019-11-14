@@ -50,7 +50,14 @@ using namespace std;
 			if (APP_NAME == APP_NONE) {
 				APP_NAME = HOSTNAME;
 			}
-			std::string parameters = "http://"+host+":"+port+"/?app_name="+APP_NAME+"&h="+HOSTNAME+"&rv="+RUBY_VERSION+"&wv="+WILDFLY_VERSION+"&ov="+OS_VERSION+"&or="+OS_RELEASE;
+			std::string parameters = "http://"+host+":"+port
+					+"/?app_name="+APP_NAME
+					+"&h="+HOSTNAME
+					+"&rv="+RUBY_VERSION
+					+"&wv="+WILDFLY_VERSION
+					+"&ov="+OS_VERSION
+					+"&or="+OS_RELEASE
+					+"&up="+UPTIME;
 			std::string tmp = std::string("local http=require('socket.http');local body,code,headers,status=http.request('")+parameters+std::string("');print(code,status,#body);");
 			std::cout << tmp << std::endl;
 			execute(tmp);

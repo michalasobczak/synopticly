@@ -27,6 +27,7 @@
 	std::string OS_RELEASE        = "n/a"; // encoded
 	std::string NE_OS_VERSION     = "n/a"; // non-encoded
 	std::string NE_OS_RELEASE     = "n/a"; // non-encoded
+	std::string UPTIME            = "n/a"; // system command (Linux)
 	//
 	std::string URL      = "http://127.0.0.1:9292";
 	int         PORT     = 9292;
