@@ -1,11 +1,7 @@
-Welcome, to the <strong>synopticly</strong>!
-
-<% if params["full"] == "true" then %>
-  <a href="?full=false">Switch to basic</a>
-<% else %>
-  <a href="?full=true">Switch to full</a>
-<% end %>
-
+<span style="font-size:70px;">Welcome, to the <strong>synopticly</strong>!</span>
+<br /><br />
+<span style="font-size:70px;">Current time: <%= Time.now.to_s %></span><br />
+<span style="font-size:50px;">Objects: <%= Application.distinct.select(:app_name).size.to_s %></span>
 <br /><br />
 
 <svg id="graphContainer">
@@ -19,8 +15,11 @@ digraph {
   <% if !app.app_name.blank? then %>
 
     <% desc = Entry.where("application_id = ? AND created_at >= now() - interval '1 minute'", app.id).count rescue nil %>
-    <% sub_entries = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now() - interval '1 minute'", app.app_name).group(:hostname).select(:hostname).pluck(:hostname) %>
-    <% version = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now() - interval '1 minute'", app.app_name).first %>
+    <% sub_entries = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now()-interval '10 seconds'", app.app_name)
+                     .group(:hostname)
+                     .select(:hostname)
+                     .pluck(:hostname) %>
+    <% version = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now()-interval '1 minute'", app.app_name).first %>
     <% 
       platforms = ""
       begin
@@ -29,19 +28,15 @@ digraph {
           platforms = platforms + "r: #{version.ruby_version rescue '?'}"
         end
         if !version.wildfly_version.blank? && version.wildfly_version != 'n/a' then
-          platforms = platforms + "\n w: #{version.wildfly_version rescue '?'}" 
+          platforms = platforms + "\nw: #{version.wildfly_version rescue '?'}" 
+        end
+        if !version.os_version.blank? && version.os_version != 'n/a' then
+          platforms = platforms + "\no: #{version.os_version rescue '?'}" 
         end
       rescue 
       end
     %>
     "<%= app.app_name %>" [label="<%= app.app_name + "\n" + platforms + "\n____________________" %>"];
-    
-    <% if params["full"] == "true" then %>
-      <% if !sub_entries.blank? then %>
-        "<%= app.app_name %>" -> { <%= sub_entries.map { |e| '"' + e + '"' }.join(" ") %> }
-      <% end %>
-    <% end %>
-
   <% end %>
 <% end %>
 
@@ -51,6 +46,8 @@ digraph {
 
 }
 </textarea>
+
+<a href="https://github.com/michalasobczak/synopticly">GitHub</a>
 
 <script>
   $(document).ready(function() {
@@ -69,9 +66,19 @@ digraph {
         } 
       });
     },1000);
+
+
+    $('.node').click(function() {
+      // This gets the node name from the 'class' attribute
+      var class_header = $(this).attr('class').split(' ');
+      var node_name = class_header[class_header.length - 1]
+      // Execute your function
+      alert(node_name)
+
+    })
   });
 
-  setInterval(function() {
-    location.reload();
-  }, 60000);
+  //setInterval(function() {
+  //  location.reload();
+  //}, 15000);
 </script>
