@@ -1,6 +1,6 @@
 # synopticly
 
-Simple service discovery software package consisting of agent, API and visualization panel. Targeting microservices monitoring as well as its data flows betweem particular environment components.
+Simple service discovery software package consisting of agent, API and visualization panel. Targeting microservices monitoring as well as its data flows between particular environment components.
 
 ![Synopticly sample image](synopticly.png)
 
