@@ -17,6 +17,7 @@ get '/' do
   e.java_version    = params["jv"]       rescue "n/a"
   e.os_release      = params["or"]       rescue "n/a"
   e.os_version      = params["ov"]       rescue "n/a"
+  e.uptime          = params["up"]       rescue "n/a"
   app = Application.where("app_name = ?", e.app_name).first
   if app.blank? then
     app = Application.new
@@ -32,5 +33,5 @@ get '/' do
   else
     return app.body
   end
-end
+end # /
 
