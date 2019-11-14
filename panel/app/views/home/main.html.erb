@@ -25,18 +25,25 @@ digraph {
       begin
         platforms = "# #{sub_entries.size} \n "
         if !version.ruby_version.blank? && version.ruby_version != 'n/a' then
-          platforms = platforms + "r: #{version.ruby_version rescue '?'}"
+          platforms = platforms + "ru: #{version.ruby_version rescue '?'}"
         end
         if !version.wildfly_version.blank? && version.wildfly_version != 'n/a' then
-          platforms = platforms + "\nw: #{version.wildfly_version rescue '?'}" 
+          platforms = platforms + "\nwf: #{version.wildfly_version rescue '?'}" 
         end
         if !version.os_version.blank? && version.os_version != 'n/a' then
-          platforms = platforms + "\no: #{version.os_version rescue '?'}" 
+          platforms = platforms + "\nos: #{version.os_version rescue '?'}" 
         end
       rescue 
+      end 
+      if version.app_name == version.hostname then 
+        uptime_load = "hl: " +  version.uptime.split("load average")[1][2..-1].gsub(", ", " ").gsub(",", ".") rescue nil
+        uptime_info = "hi: " +  version.uptime.split("load average")[0][0..-4] rescue nil
+        host = uptime_load + "\n" + uptime_info + "\n"
+      else
+        host = ""
       end
     %>
-    "<%= app.app_name %>" [label="<%= app.app_name + "\n" + platforms + "\n____________________" %>"];
+    "<%= app.app_name %>" [label="<%= app.app_name + "\n" + host + "\n" + platforms + "\n____________________" %>"];
   <% end %>
 <% end %>
 
