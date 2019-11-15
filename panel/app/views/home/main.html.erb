@@ -1,8 +1,10 @@
-<span style="font-size:70px;">Welcome, to the <strong>synopticly</strong>!</span>
-<br /><br />
-<span style="font-size:70px;">Current time: <%= Time.now.to_s %></span><br />
-<span style="font-size:50px;">Objects: <%= Application.distinct.select(:app_name).size.to_s %></span>
-<br /><br />
+<!--
+  <span style="font-size:70px;">Welcome, to the <strong>synopticly</strong>!</span>
+  <br /><br />
+  <span style="font-size:70px;">Current time: <%= Time.now.to_s %></span><br />
+  <span style="font-size:50px;">Objects: <%= Application.distinct.select(:app_name).size.to_s %></span>
+  <br /><br />
+-->
 
 <svg id="graphContainer">
   <g/>
@@ -11,39 +13,52 @@
 <textarea id="dot" style="width:800px;height:400px;display:none;">
 digraph {
 <% Application.where("app_name <> 'n/a' AND app_name is not null").each do |app| %>
-
   <% if !app.app_name.blank? then %>
-
-    <% desc = Entry.where("application_id = ? AND created_at >= now() - interval '1 minute'", app.id).count rescue nil %>
-    <% sub_entries = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now()-interval '10 seconds'", app.app_name)
+    <% 
+      #
+      # entries counter
+      sub_entries = Entry
+                     .where("app_name = ? 
+                             AND hostname IS NOT NULL 
+                             AND created_at >= now()-interval '15 seconds'", app.app_name)
                      .group(:hostname)
                      .select(:hostname)
-                     .pluck(:hostname) %>
-    <% version = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now()-interval '1 minute'", app.app_name).first %>
-    <% 
+                     .pluck(:hostname)
+      # last known entry for particular application
+      entry = Entry
+              .where("app_name = ? 
+                      AND hostname IS NOT NULL 
+                      AND created_at >= now()-interval '15 seconds'", app.app_name)
+              .last
+      # preparation
+      host = ""
       platforms = ""
       begin
         platforms = "# #{sub_entries.size} \n "
-        if !version.ruby_version.blank? && version.ruby_version != 'n/a' then
-          platforms = platforms + "ru: #{version.ruby_version rescue '?'}"
+        # Ruby interpreter version
+        if !entry.ruby_version.blank? && entry.ruby_version != 'n/a' then
+          platforms = platforms + "ru: #{entry.ruby_version rescue '?'}"
         end
-        if !version.wildfly_version.blank? && version.wildfly_version != 'n/a' then
-          platforms = platforms + "\nwf: #{version.wildfly_version rescue '?'}" 
+        # Wildfly version
+        if !entry.wildfly_version.blank? && entry.wildfly_version != 'n/a' then
+          platforms = platforms + "\nwf: #{entry.wildfly_version rescue '?'}" 
         end
-        if !version.os_version.blank? && version.os_version != 'n/a' then
-          platforms = platforms + "\nos: #{version.os_version rescue '?'}" 
+        # OS vesion info
+        if !entry.os_version.blank? && entry.os_version != 'n/a' then
+          platforms = platforms + "\nos: #{entry.os_version rescue '?'}" 
+        end
+        # uptime command output info
+        if entry.app_name == entry.hostname then 
+          uptime_load = "hl: " +  entry.uptime.split("load average")[1][2..-1].gsub(", ", " ").gsub(",", ".") rescue nil
+          uptime_info = "hi: " +  entry.uptime.split("load average")[0][0..-4].split("up")[1][1..-1] rescue nil
+          host = uptime_load + "\n" + uptime_info + "\n"
+        else
+          host = ""
         end
       rescue 
       end 
-      if version.app_name == version.hostname then 
-        uptime_load = "hl: " +  version.uptime.split("load average")[1][2..-1].gsub(", ", " ").gsub(",", ".") rescue nil
-        uptime_info = "hi: " +  version.uptime.split("load average")[0][0..-4] rescue nil
-        host = uptime_load + "\n" + uptime_info + "\n"
-      else
-        host = ""
-      end
     %>
-    "<%= app.app_name %>" [label="<%= app.app_name + "\n" + host + "\n" + platforms + "\n____________________" %>"];
+    "<%= app.app_name %>" [label="<%= app.app_name + "\n" + host + "\n" + platforms %>"];
   <% end %>
 <% end %>
 
@@ -59,10 +74,10 @@ digraph {
 <script>
   $(document).ready(function() {
     setInterval(function() {
+      /* [vm+pods] Connectivity issue */
       $('tspan').each(function() { 
         r = /# 0/gi; 
         if (this.textContent.toString().match(r)) {
-          console.log("ALERT: 0 pods!"); 
           fill = $($($(this).parent().parent().parent()).children()[0]).attr("style");
           if (fill == "fill:rgb(255,0,0)") {
             $($($(this).parent().parent().parent()).children()[0]).attr("style", "fill:rgb(255,255,255)");
@@ -72,20 +87,32 @@ digraph {
           }
         } 
       });
+ 
+      /* [vm] Users logged in */
+      $('tspan').each(function() { 
+        r = /(\d) (user)/
+        let result = this.textContent.toString().match(r);
+        if (result) {
+          users_no = result[0];
+          if (users_no != "0 user") {
+            $($($(this).parent().parent().parent()).children()[0]).attr("style", "fill:rgb(0,255,0)");
+          }
+        } 
+      });
+
     },1000);
 
-
+    /* onclick for node rectangular */
     $('.node').click(function() {
-      // This gets the node name from the 'class' attribute
       var class_header = $(this).attr('class').split(' ');
       var node_name = class_header[class_header.length - 1]
-      // Execute your function
       alert(node_name)
-
     })
   });
 
-  //setInterval(function() {
-  //  location.reload();
-  //}, 15000);
+  /* refresh every N seconds */
+  setInterval(function() {
+    location.reload();
+  }, 10000);
 </script>
+
