@@ -37,9 +37,9 @@ int main() {
 	WILDFLY_VERSION = url_encode(read_wildfly_version());
 	OS_VERSION      = url_encode(NE_OS_VERSION);
 	OS_RELEASE      = url_encode(NE_OS_RELEASE);
-	UPTIME          = url_encode(exec("uptime"));
 	while (true) {
 		if (!APP_NAME.empty()) {
+			UPTIME = url_encode(exec("uptime"));
 			send_data_to_api();
 		}
 		sleep_for(5000);
