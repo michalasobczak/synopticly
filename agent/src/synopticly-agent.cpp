@@ -39,7 +39,8 @@ int main() {
 	OS_RELEASE      = url_encode(NE_OS_RELEASE);
 	while (true) {
 		if (!APP_NAME.empty()) {
-			UPTIME = url_encode(exec("uptime"));
+			UPTIME    = url_encode(exec("uptime"));
+			PROCESSES = url_encode(exec("top -b -c -n1 | awk '{ if (NR == 2) { print $0 }  }' | base64"));
 			send_data_to_api();
 		}
 		sleep_for(5000);

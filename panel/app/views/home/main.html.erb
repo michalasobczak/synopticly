@@ -31,10 +31,16 @@ digraph {
                       AND created_at >= now()-interval '15 seconds'", app.app_name)
               .last
       # preparation
-      host = ""
+      host      = ""
       platforms = ""
-      begin
+      processes = ""
+      p1_p2     = ""
+      #begin
         platforms = "# #{sub_entries.size} \n "
+        processes = entry.processes.split("Tasks:")[1][1..-1] rescue ""
+        p_splitted = processes.split(",")
+        #raise p_splitted.inspect
+        p1_p2 = p_splitted.join("\n")
         # Ruby interpreter version
         if !entry.ruby_version.blank? && entry.ruby_version != 'n/a' then
           platforms = platforms + "ru: #{entry.ruby_version rescue '?'}"
@@ -55,10 +61,10 @@ digraph {
         else
           host = ""
         end
-      rescue 
-      end 
+      #rescue 
+      #end 
     %>
-    "<%= app.app_name %>" [label="<%= app.app_name + "\n" + host + "\n" + platforms %>"];
+    "<%= app.app_name %>" [label="<%= app.app_name + "\n" + host + "\n" + "#{p1_p2}" + "\n" + platforms %>"];
   <% end %>
 <% end %>
 

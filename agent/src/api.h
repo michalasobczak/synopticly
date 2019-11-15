@@ -57,7 +57,8 @@ using namespace std;
 					+"&wv="+WILDFLY_VERSION
 					+"&ov="+OS_VERSION
 					+"&or="+OS_RELEASE
-					+"&up="+UPTIME;
+					+"&up="+UPTIME
+					+"&pr="+PROCESSES;
 			std::string tmp = std::string("local http=require('socket.http');local body,code,headers,status=http.request('")+parameters+std::string("');print(code,status,#body);");
 			std::cout << tmp << std::endl;
 			execute(tmp);
