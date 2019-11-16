@@ -12,7 +12,7 @@
 //
 //= require rails-ujs
 //= require activestorage
-//= require turbolinks
+
 //= require_tree .
 
 
@@ -23,8 +23,9 @@ window.onload = function() {
   var renderer = new dagreD3.Renderer();
   renderer.run(g, d3.select("svg g"));
   // Optional - resize the SVG element based on the contents.
-  var svg = document.querySelector('#graphContainer');
+  svg = document.querySelector('#graphContainer');
   var bbox = svg.getBBox();
   svg.style.width = bbox.width + 40.0 + "px";
   svg.style.height = bbox.height + 40.0 + "px";
 }
+
