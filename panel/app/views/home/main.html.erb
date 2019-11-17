@@ -1,61 +1,62 @@
-<span style="font-size:70px;">Welcome, to the <strong>synopticly</strong>!</span>
-<br /><br />
-<span style="font-size:70px;">Current time: <%= Time.now.to_s %></span><br />
-<span style="font-size:50px;">Objects: <%= Application.distinct.select(:app_name).size.to_s %></span>
-<br /><br />
+<style>
+</style>
 
-<svg id="graphContainer">
-  <g/>
-</svg>
+<!--
+  <span style="font-size:70px;">Welcome, to the <strong>synopticly</strong>!</span>
+  <br /><br />
+  <span style="font-size:70px;">Current time: <%= Time.now.to_s %></span><br />
+  <span style="font-size:50px;">Objects: <%= Application.distinct.select(:app_name).size.to_s %></span>
+  <br /><br />
+-->
 
-<textarea id="dot" style="width:800px;height:400px;display:none;">
-digraph {
-<% Application.where("app_name <> 'n/a' AND app_name is not null").each do |app| %>
-
-  <% if !app.app_name.blank? then %>
-
-    <% desc = Entry.where("application_id = ? AND created_at >= now() - interval '1 minute'", app.id).count rescue nil %>
-    <% sub_entries = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now()-interval '10 seconds'", app.app_name)
-                     .group(:hostname)
-                     .select(:hostname)
-                     .pluck(:hostname) %>
-    <% version = Entry.where("app_name = ? AND hostname IS NOT NULL AND created_at >= now()-interval '1 minute'", app.app_name).first %>
-    <% 
-      platforms = ""
-      begin
-        platforms = "# #{sub_entries.size} \n "
-        if !version.ruby_version.blank? && version.ruby_version != 'n/a' then
-          platforms = platforms + "r: #{version.ruby_version rescue '?'}"
-        end
-        if !version.wildfly_version.blank? && version.wildfly_version != 'n/a' then
-          platforms = platforms + "\nw: #{version.wildfly_version rescue '?'}" 
-        end
-        if !version.os_version.blank? && version.os_version != 'n/a' then
-          platforms = platforms + "\no: #{version.os_version rescue '?'}" 
-        end
-      rescue 
-      end
-    %>
-    "<%= app.app_name %>" [label="<%= app.app_name + "\n" + platforms + "\n____________________" %>"];
+<div style="font-size:74px;">
+  <% if params["basic"] == "true" then %>
+    <a href="/?basic=false&rnd=<%=(rand*100000).to_i%>">Switch to extended</a>
+  <% else %>
+    <a href="/?basic=true&rnd=<%=(rand*100000).to_i%>">Switch to basic</a>
   <% end %>
-<% end %>
+</div>
 
-<% Flow.all.each do |f| %>
-  "<%= f.input %>" -> "<%= f.output %>"
-<% end %>
+<br />
 
+<div>
+  <svg id="graphContainer" style="border:1px solid black; padding:5px;">
+    <g/>
+  </svg>
+</div>
+
+<textarea id="dot" style="display:none;">
+digraph {
+  <% Application.where("app_name <> 'n/a' AND app_name is not null").each do |app| %>
+    <% if !app.app_name.blank? then %>
+      <% if params["basic"] == "true" %>
+        <% platforms = @app_info[app.app_name][:platforms] rescue "# 0" %>
+        <% host  = "" %>
+        <% p1_p2 = "" %>
+        "<%= app.app_name %>" [label="<%= app.app_name + "\n" + platforms %>"];
+      <% else %>
+        <% platforms = @app_info[app.app_name][:platforms] rescue "# 0" %>
+        <% host      = @app_info[app.app_name][:host]      rescue "---" %>
+        <% p1_p2     = @app_info[app.app_name][:p1_p2]     rescue "---" %>
+        "<%= app.app_name %>" [label="<%= app.app_name + "\n" + host + "\n" + "#{p1_p2}" + "\n" + platforms %>"];
+      <% end %>
+    <% end %>
+  <% end %>
+  <% Flow.all.each do |f| %>
+    "<%= f.input %>" -> "<%= f.output %>"
+  <% end %>
 }
 </textarea>
 
-<a href="https://github.com/michalasobczak/synopticly">GitHub</a>
+<br />
 
 <script>
   $(document).ready(function() {
     setInterval(function() {
+      /* [vm+pods] Connectivity issue */
       $('tspan').each(function() { 
         r = /# 0/gi; 
         if (this.textContent.toString().match(r)) {
-          console.log("ALERT: 0 pods!"); 
           fill = $($($(this).parent().parent().parent()).children()[0]).attr("style");
           if (fill == "fill:rgb(255,0,0)") {
             $($($(this).parent().parent().parent()).children()[0]).attr("style", "fill:rgb(255,255,255)");
@@ -65,20 +66,33 @@ digraph {
           }
         } 
       });
+ 
+      /* [vm] Users logged in */
+      $('tspan').each(function() { 
+        r = /(\d) (user)/
+        let result = this.textContent.toString().match(r);
+        if (result) {
+          users_no = result[0];
+          if (users_no != "0 user") {
+            $($($(this).parent().parent().parent()).children()[0]).attr("style", "fill:rgb(0,255,0)");
+          }
+        } 
+      });
+
     },1000);
 
-
+    /* onclick for node rectangular */
     $('.node').click(function() {
-      // This gets the node name from the 'class' attribute
       var class_header = $(this).attr('class').split(' ');
       var node_name = class_header[class_header.length - 1]
-      // Execute your function
-      alert(node_name)
-
+      alert($(this));
     })
   });
 
-  //setInterval(function() {
-  //  location.reload();
-  //}, 15000);
+  /* refresh every N seconds */
+  setInterval(function() {
+    location.reload();
+  }, 10000);
+
 </script>
+
