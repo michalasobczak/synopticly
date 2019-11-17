@@ -30,9 +30,15 @@ digraph {
   <% Application.where("app_name <> 'n/a' AND app_name is not null").each do |app| %>
     <% if !app.app_name.blank? then %>
       <% if params["basic"] == "true" %>
-        "<%= app.app_name %>" [label="<%= app.app_name + "\n" + @app_info[app.app_name][:platforms] %>"];
+        <% platforms = @app_info[app.app_name][:platforms] rescue "# 0" %>
+        <% host  = "" %>
+        <% p1_p2 = "" %>
+        "<%= app.app_name %>" [label="<%= app.app_name + "\n" + platforms %>"];
       <% else %>
-        "<%= app.app_name %>" [label="<%= app.app_name + "\n" + @app_info[app.app_name][:host] + "\n" + "#{@app_info[app.app_name][:p1_p2]}" + "\n" + @app_info[app.app_name][:platforms] %>"];
+        <% platforms = @app_info[app.app_name][:platforms] rescue "# 0" %>
+        <% host      = @app_info[app.app_name][:host]      rescue "---" %>
+        <% p1_p2     = @app_info[app.app_name][:p1_p2]     rescue "---" %>
+        "<%= app.app_name %>" [label="<%= app.app_name + "\n" + host + "\n" + "#{p1_p2}" + "\n" + platforms %>"];
       <% end %>
     <% end %>
   <% end %>
