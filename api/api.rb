@@ -29,7 +29,9 @@ get '/' do
   end
   e.application_id = app.id
   e.save! 
-  Entry.where("created_at <= now() - interval '1 minutes'").delete_all
+  if e.id % 100 == 0 then
+    Entry.where("created_at <= now() - interval '1 minutes'").delete_all
+  end
   if app.body.blank?
     return "{}"
   else
