@@ -4,7 +4,8 @@ development:
   host:     <%= ENV['DATABASE_HOST'] %> 
   username: synopticly
   password: <%= ENV['DATABASE_PASS'] %> 
+  port:     <%= ENV['DATABASE_PORT'] %>
   database: synopticly
-  pool:     2
+  pool:     20
 
   

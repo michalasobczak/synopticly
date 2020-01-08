@@ -16,7 +16,8 @@ development:
   username: synopticly
   password: <%= ENV['DATABASE_PASS'] %> 
   database: synopticly
-  pool:     2
+  port:     <%= ENV['DATABASE_PORT'] %>
+  pool:     20
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
