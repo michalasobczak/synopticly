@@ -34,31 +34,31 @@ class HomeController < ApplicationController
         processes = ""
         p1_p2     = ""
         begin
-          platforms = "# #{@sub_entries[app.app_name]} \n "
+          platforms = "# #{@sub_entries[app.app_name]} <br /> "
           if params["basic"] == "true"
             # nop
           else 
             #  ********* processes ********* 
             processes = entry.processes.split("Tasks:")[1][1..-1] rescue ""
             p_splitted = processes.split(",")
-            p1_p2 = p_splitted[0] + "\n" + p_splitted[1] + "\n" + p_splitted[2] + "\n" + p_splitted[4] + "\n"         
+            p1_p2 = p_splitted[0] + "<br />" + p_splitted[1] + "<br />" + p_splitted[2] + "<br />" + p_splitted[4] + "<br />"         
             # *********  Ruby interpreter version ********* 
             if !entry.ruby_version.blank? && entry.ruby_version != 'n/a' then
               platforms = platforms + "ru: #{entry.ruby_version rescue '?'}"
             end
             # *********  Wildfly version ********* 
             if !entry.wildfly_version.blank? && entry.wildfly_version != 'n/a' then
-              platforms = platforms + "\nwf: #{entry.wildfly_version rescue '?'}" 
+              platforms = platforms + "wf: #{entry.wildfly_version rescue '?'}" 
             end
             # *********  OS vesion info ********* 
             if !entry.os_version.blank? && entry.os_version != 'n/a' then
-              platforms = platforms + "\nos: #{entry.os_version rescue '?'}" 
+              platforms = platforms + "<br />os: #{entry.os_version rescue '?'}" 
             end
             # *********  uptime command output info ********* 
             if entry.app_name == entry.hostname then 
               uptime_load = "hl: " +  entry.uptime.split("load average")[1][2..-1].gsub(", ", " ").gsub(",", ".") rescue nil
               uptime_info = "hi: " +  entry.uptime.split("load average")[0][0..-4].split("up")[1][1..-1] rescue nil
-              host = uptime_load + "\n" + uptime_info + "\n"
+              host = uptime_load + "<br />" + uptime_info + "<br />"
             else
               host  = ""
               p1_p2 = ""
